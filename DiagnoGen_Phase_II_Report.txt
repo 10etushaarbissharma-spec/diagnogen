@@ -1,0 +1,85 @@
+
+Department of Computer Science and Engineering
+DiagnoGen: Phase-II Implementation Report
+AI-Based Disease Prediction and Healthcare Guidance System
+Phase-II Scope: Implementation and documentation of exactly two functional requirements: FR-01 User Symptom Input and FR-04 Disease Prediction.
+FieldDetailsCourse Code22CSP69Academic Year2025-2026Project PhaseMajor Project Phase-IIGuided ByDR. P Ramesh Naidu, PROFESSOR
+Prepared By
+TUSHAAR SHARMA        1NT23CS257
+                                                       PRASANNA                        1NT24CS411            
+                                                        SANJAY S                         1NT23CS211
+
+
+Abstract
+DiagnoGen is an AI-assisted healthcare support system designed to accept user symptoms and generate preliminary disease predictions through a modular web architecture. The complete product vision includes natural language processing, prediction, confidence scoring, AI-generated healthcare guidance, emergency symptom detection, history storage and production deployment support. Phase-II intentionally implements only the core vertical slice required to prove the system path from symptom entry to disease prediction.
+This report documents the Phase-II implementation of FR-01 User Symptom Input and FR-04 Disease Prediction. The selected scope is technically defensible because these requirements establish the minimum useful flow: a user provides symptoms, the backend processes the request, the machine learning module predicts a disease class, and the result can be returned for display. All other features remain planned for subsequent phases and are treated as architecture-ready but not claimed as implemented.
+Document Structure
+* Project overview, motivation and problem statement
+* Phase-II scope and selected functional requirements
+* System architecture and technology stack
+* Implementation design for FR-01 and FR-04
+* Testing, quality alignment, limitations and future scope
+
+
+1. Project Overview
+DiagnoGen is planned as a healthcare assistance platform that helps users describe symptoms and receive preliminary disease prediction support. The system is not positioned as a replacement for clinical diagnosis; instead, it provides structured assistance that can guide early awareness and encourage appropriate medical consultation.
+The architecture separates the user interface, API gateway, AI processing components, data layer and deployment layer. This separation is important because healthcare software must remain maintainable, testable and extensible. A narrow Phase-II implementation allows the team to validate the most important technical path before adding higher-risk modules such as emergency alerting, generative AI guidance and prediction history storage.
+2. Problem Statement
+Users commonly describe symptoms in informal language, while machine learning systems require structured inputs. Without a working bridge between the user interface and prediction module, DiagnoGen would remain only an architecture proposal. Phase-II therefore addresses the problem of creating a simple user input path and connecting it to a disease prediction model in a way that can be tested, demonstrated and extended.
+Phase-II Problem Focus: Build a reliable minimum implementation that accepts symptom input and returns a disease prediction, while avoiding unsupported claims about advanced healthcare guidance or emergency decision-making.
+3. Phase-II Objectives and Scope
+The objective of Phase-II is to demonstrate the first complete user-to-model interaction. The scope is deliberately limited to two functional requirements from the requirements document.
+Scope CategoryDecisionImplementedFR-01 User Symptom Input and FR-04 Disease Prediction.Supporting BehaviorBasic input validation, API request preparation and result display are used only to support the two implemented requirements.DeferredNLP-based extraction, confidence score generation, AI response generation, emergency symptom detection, prediction history storage, admin dataset management, voice input and production monitoring.Phase-II Success MeasureA valid symptom entry can travel through the interface and backend prediction path and produce a disease prediction output.
+4. Functional Requirements Implemented
+Req IDFunctional RequirementPriorityPhase-II ImplementationAcceptance CriteriaFR-01User Symptom InputHighThe system provides a user-facing symptom input area through the Streamlit interface and prepares the submitted symptom text for backend processing.The user can submit meaningful symptom text without needing to follow a fixed technical format.FR-04Disease PredictionHighThe backend connects processed symptom information to the machine learning prediction module and returns a possible disease class.For valid symptom input, the system returns a disease prediction during demonstration tests.
+Traceability note: FR-02 validation, FR-08 result display and other adjacent behaviors are acknowledged as supporting activities, but they are not claimed as independently implemented functional requirements in this phase.
+
+
+5. System Architecture
+The DiagnoGen architecture is organized into five major layers: frontend, API gateway, AI processing, data and deployment. Phase-II uses the frontend layer for symptom input, the API layer for request handling and the AI processing layer for disease prediction. Data storage, monitoring, cloud deployment, emergency detection and generative AI guidance remain part of the future-ready architecture.
+Architecture LayerRelevant ComponentsPhase-II RoleFrontend LayerStreamlit Web Interface, Symptom Input UI, Prediction DashboardCaptures symptom text and presents prediction results.API Gateway LayerFastAPI REST API, Request Handler, Response FormatterReceives UI requests and returns structured prediction responses.AI Processing LayerMachine Learning Engine, Random Forest Classifier, Disease PredictionProcesses the symptom representation and predicts a disease class.Data LayerSymptoms Dataset, Disease Dataset, Prediction History, User RecordsDatasets support model behavior; persistent history is deferred.Deployment LayerDocker, Nginx, AWS/Render, MonitoringArchitecture-ready for production but not the focus of Phase-II.
+
+Figure 1. DiagnoGen System Architecture
+
+The Phase-II path uses the Symptom Input UI, FastAPI request path and machine learning disease prediction components.
+
+6. Technology Stack
+The technology stack was selected to support fast prototyping, Python-based machine learning and a modular migration path toward production deployment.
+LayerTechnologyPurposeReason for SelectionFrontendStreamlit, HTML5, CSS3Interactive healthcare dashboard and symptom input screen.Fast UI development and real-time interaction.BackendFastAPI, UvicornREST API and backend service execution.High performance, asynchronous support and clean API structure.LanguagePythonCore application development and ML integration.Strong AI/ML ecosystem support.Machine LearningScikit-learn, Random ForestDisease prediction model development.Simple implementation, interpretability and reduced overfitting compared with a single tree.Data ProcessingPandas, NumPyDataset handling, preprocessing and numerical computation.Efficient structured data management and vector operations.PersistenceSQLite/PostgreSQLDevelopment and production data storage.Lightweight local setup with a scalable production target.DeploymentDocker, Nginx, AWS/RenderPortable deployment and traffic management.Environment consistency and cloud-readiness.
+7. Implementation Design
+7.1 FR-01 User Symptom Input
+The user symptom input module is the first visible interaction in DiagnoGen. Its design priority is clarity: users should be able to describe symptoms naturally without understanding dataset fields, model features or backend endpoints.
+* Provide a visible symptom entry field in the Streamlit interface.
+* Accept ordinary symptom descriptions such as fever, cough, headache or fatigue combinations.
+* Prevent blank submissions through supporting validation behavior.
+* Package the symptom text into a backend request that can be processed by the prediction service.
+Design Boundary: Although validation supports the input flow, FR-02 is not counted as an independently completed requirement in Phase-II.
+7.2 FR-04 Disease Prediction
+The disease prediction module receives the processed symptom representation and passes it to a machine learning classifier. The project technology stack identifies Random Forest as the primary disease prediction algorithm because it provides stable performance and reduces the risk of overfitting compared with a single decision tree.
+* Transform the processed symptom information into the model-ready feature structure.
+* Use the trained Random Forest classifier to predict a possible disease class.
+* Return the predicted label to the API response path.
+* Present the output as preliminary decision support rather than medical diagnosis.
+8. Processing Flow
+StepProcessInputOutput1Symptom entryNatural-language symptom textSubmitted symptom request2API request handlingFrontend request payloadValidated backend request3Feature preparationSymptom representationModel-ready feature vector4PredictionFeature vectorPredicted disease class5ResponsePrediction resultDisease prediction displayed to user
+9. Testing and Validation
+Testing is aligned to the two selected requirements and to the non-functional qualities most relevant to a healthcare-support prototype: usability, reliability, response time, API consistency and fault tolerance.
+Test IDScenarioExpected ResultRequirement/NFR MappingTC-01Submit valid symptom text through the UI.Request is accepted and forwarded to the backend.FR-01, Usability, ReliabilityTC-02Submit empty or meaningless symptom text.System provides validation feedback and avoids unnecessary prediction.FR-01 support, Fault ToleranceTC-03Submit a known symptom combination for prediction.Disease prediction output is returned.FR-04, Accuracy, API ReliabilityTC-04Repeat a prediction request with the same input.The response path remains consistent.Reliability, MaintainabilityTC-05Backend unavailable or failed request.System displays an understandable error state.Error Handling, Fault Tolerance
+10. Non-Functional Requirement Alignment
+NFRRelevance to Phase-IIDesign ResponsePerformancePrediction should be generated within a few seconds.Use lightweight FastAPI request handling and a scikit-learn model suitable for quick inference.UsabilityUsers should understand how to enter symptoms.Provide a simple symptom input interface with minimal technical language.MaintainabilityFuture modules must be added without rewriting the core path.Use separated frontend, backend and ML responsibilities.SecuritySymptom input should be handled through controlled API boundaries.Backend request handling and validation support reduce invalid input risk.ExtensibilityFuture AI guidance, emergency detection and history modules are planned.Architecture retains separate NLP, AI guidance, data and deployment layers.
+11. Limitations and Future Work
+The Phase-II implementation is intentionally narrow. It demonstrates the core interaction but does not yet represent the full healthcare system described in the architecture and requirements documents.
+Deferred AreaReason for DeferralFuture Phase DirectionNLP-Based Symptom ExtractionRequires stronger text normalization and medical vocabulary handling.Introduce tokenization, symptom extraction and controlled vocabulary mapping.Confidence Score GenerationRequires calibrated model output and evaluation methodology.Add probability handling or confidence scoring once dataset evaluation is stable.AI Response GenerationRequires safety review and careful healthcare wording.Generate structured guidance with disclaimers and prompt safety controls.Emergency DetectionHigh clinical risk if implemented prematurely.Define critical symptom rules and escalation messaging with strict disclaimers.Prediction History StorageRequires privacy-aware storage design.Add authenticated users, secure records and audit-friendly persistence.
+12. Conclusion
+Phase-II successfully defines a focused implementation path for DiagnoGen by selecting and documenting two high-priority functional requirements: user symptom input and disease prediction. This creates a measurable core prototype and avoids overclaiming unfinished modules. The resulting system path supports future expansion into NLP extraction, confidence scoring, AI guidance, emergency alerting, prediction history and production deployment.
+References
+1. DiagnoGen Functional and Non-Functional Requirements Document, May 2026.
+2. DiagnoGen Technology Stack Document, May 2026.
+3. DiagnoGen System Architecture Document and Architecture Diagram, May 2026.
+4. Major Project Phase-I PPT template supplied by the project team, AY 2025-2026.
+Appendix A: Requirement Traceability Matrix
+Req IDDesign ElementImplementation EvidenceTest EvidenceStatusFR-01Streamlit symptom input UIInput field accepts symptom text and prepares backend request.TC-01, TC-02Implemented in Phase-IIFR-04Random Forest disease prediction pathProcessed symptoms are passed to the ML classifier and disease label is returned.TC-03, TC-04Implemented in Phase-II
+DiagnoGen Phase-II Implementation Report
+
+Department of Computer Science and Engineering | AY 2025-2026
+
